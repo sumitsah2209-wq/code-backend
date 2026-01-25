@@ -1,10 +1,20 @@
+import 'dotenv/config';
 // npm init -y
 // npx tsc --init
 
 import express, { Request, Response } from "express";
+import { connectDB } from "./config/db.config";
+import { ENV_CONFIG } from './config/env.config';
+
+
+
 const app = express();
-const PORT =8000
+const PORT =ENV_CONFIG.port || 8000;
 //! connect to database
+
+connectDB();
+
+
 
 
 //! root route
