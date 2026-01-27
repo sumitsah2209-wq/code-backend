@@ -1,43 +1,43 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import User from "../models/user.model";
 import { compareHash, hashText } from "../utils/bcrypt.utils";
 import { hash } from "bcryptjs";
 
 //! register
-export const register = async (req: Request, res: Response) => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   try {
     const { first_name, last_name, email, password, phone } = req.body;
     if (!first_name) {
-      res.status(400).json({
-        message: "first_name is required",
-        code: "VALIDATION_ERR",
-        status: "error",
-        data: null,
-      });
+      const error: any = new Error("first_name is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      error.code = "VALIDATION_ERR";
+      throw error;
     }
     if (!last_name) {
-      res.status(400).json({
-        message: "last_name is required",
-        code: "VALIDATION_ERR",
-        status: "error",
-        data: null,
-      });
+      const error: any = new Error("last_name is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      error.code = "VALIDATION_ERR";
+      throw error;
     }
     if (!email) {
-      res.status(400).json({
-        message: "email is required",
-        code: "VALIDATION_ERR",
-        status: "error",
-        data: null,
-      });
+      const error: any = new Error("email is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      error.code = "VALIDATION_ERR";
+      throw error;
     }
     if (!password) {
-      res.status(400).json({
-        message: "password is required",
-        code: "VALIDATION_ERR",
-        status: "error",
-        data: null,
-      });
+      const error: any = new Error("password is required");
+      error.statusCode = 400;
+      error.status = "fail";
+      error.code = "VALIDATION_ERR";
+      throw error;
     }
 
     // create user
@@ -60,12 +60,7 @@ export const register = async (req: Request, res: Response) => {
       data: user,
     });
   } catch (error: any) {
-    res.status(500).json({
-      message: error?.message || "Internal server error",
-      code: "INTEENAL_SERVER_ERR",
-      status: "error",
-      data: null,
-    });
+    next(error);
   }
 };
 
