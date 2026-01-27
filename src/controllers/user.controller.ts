@@ -1,13 +1,13 @@
-import express, { Request, Response } from "express";
+import { json, Request, Response } from "express";
 import User from "../models/user.model";
-// get all users
+
 export const getAll = async (req: Request, res: Response) => {
   try {
     // db query -> user collection
     const users = await User.find({});
-    //! Success response
+    //! success response
     res.status(201).json({
-      message: "Account created",
+      message: "User fetched",
       code: "SUCCESS",
       status: "success",
       data: users,
@@ -15,7 +15,7 @@ export const getAll = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       message: error?.message || "Internal server error",
-      code: "INTEENAL_SERVER_ERR",
+      code: "INTERNAL_SERVER_ERR",
       status: "error",
       data: null,
     });
@@ -39,7 +39,7 @@ export const getById = async (req: Request, res: Response) => {
     }
 
     res.status(201).json({
-      message: "Account created",
+      message: "User fetched",
       code: "SUCCESS",
       status: "success",
       data: user,
@@ -47,7 +47,7 @@ export const getById = async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(500).json({
       message: error?.message || "Internal server error",
-      code: "INTEENAL_SERVER_ERR",
+      code: "INTERNAL_SERVER_ERR",
       status: "error",
       data: null,
     });
@@ -55,5 +55,65 @@ export const getById = async (req: Request, res: Response) => {
 };
 
 //!update
+export const update_user = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
 
-//! delete
+    const updatedUser = await User.findByIdAndUpdate(id, req.body);
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        message: "User not found",
+        code: "NOT_FOUND_ERR",
+        status: "fail",
+        data: null,
+      });
+    }
+
+    res.status(200).json({
+      message: "User updated successfully",
+      code: "SUCCESS",
+      status: "success",
+      data: updatedUser,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error?.message || "Internal server error",
+      code: "INTERNAL_SERVER_ERR",
+      status: "error",
+      data: null,
+    });
+  }
+};
+
+//!delete
+export const delete_user = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+
+    const deletedUser = await User.findByIdAndDelete(id);
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        message: "User not found",
+        code: "NOT_FOUND_ERR",
+        status: "fail",
+        data: null,
+      });
+    }
+
+    res.status(200).json({
+      message: "User deleted successfully",
+      code: "SUCCESS",
+      status: "success",
+      data: deletedUser,
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: error?.message || "Internal server error",
+      code: "INTERNAL_SERVER_ERR",
+      status: "error",
+      data: null,
+    });
+  }
+};
