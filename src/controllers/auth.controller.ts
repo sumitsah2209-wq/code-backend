@@ -13,6 +13,8 @@ export const register = async (
 ) => {
   try {
     const { first_name, last_name, email, password, phone } = req.body;
+    const file = req.file;
+    console.log(file)
     if (!first_name) {
       throw new AppError(
         "first_name is required",
@@ -46,6 +48,12 @@ export const register = async (
     const hash_password = await hashText(password);
     user.password = hash_password;
     // profile image
+   if(file){
+     user.profile_image={
+      path:file?.path as string,
+      public_id:file?.filename as string
+    }
+   }
     // otp
     //? save user
     await user.save();
