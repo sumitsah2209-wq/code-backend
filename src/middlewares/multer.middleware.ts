@@ -1,20 +1,19 @@
 import multer from "multer";
 import fs from "fs";
+import { Request } from "express";
 import path from "path";
 import AppError from "./error_handler.middleware";
 import { ERROR_CODES } from "../types/enum.types";
-import { Request } from "express";
 
 export const uploader = () => {
   const upload_dir = "uploads/";
-
   //! max file size
   const max_file_size = 5 * 1024 * 1024; // 5MB
 
-  //? allowed extensions
+  //? allowed extentions
   const allowed_ext = ["jpg", "jpeg", "webp", "svg", "png"];
 
-  //! check upload dir exists or not
+  //? check upload dir exists or not
   if (!fs.existsSync(upload_dir)) {
     fs.mkdirSync(upload_dir, { recursive: true });
   }
@@ -39,7 +38,6 @@ export const uploader = () => {
       .extname(file.originalname)
       .replace(".", "")
       .toLowerCase();
-    console.log(file_ext);
 
     const is_allowed = allowed_ext.includes(file_ext);
 
@@ -48,7 +46,7 @@ export const uploader = () => {
     } else {
       cb(
         new AppError(
-          `Invalid File Type only ${allowed_ext.join} are allowed`,
+          `Invalid file type.Only ${allowed_ext.join(",")} are allowed`,
           ERROR_CODES.VALIDATION_ERR,
           400,
         ),
@@ -64,5 +62,6 @@ export const uploader = () => {
       fileSize: max_file_size,
     },
   });
+
   return upload;
 };

@@ -16,27 +16,25 @@ class AppError extends Error {
   }
 }
 
-export const error_handler = (
-  error: any,
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const message = error?.message || "Internal server error";
-  const statusCode = error?.statusCode || 500;
+
+
+
+export const errorHandler = (error: any, req: Request, res: Response, next: NextFunction) => {
+  const message = error?.message || "Internal sever error";
+  const stausCode = error?.statusCode || 500;
   const code = error?.code || ERROR_CODES.INTERNAL_SERVER_ERR;
   const status = error?.status || "error";
 
-  console.log("Error handler");
+  console.log("error handler");
   console.log(error);
-  res.status(statusCode).json({
+  res.status(stausCode).json({
     message,
     code,
     status,
     data: null,
-    originalError: ENV_CONFIG.node_env === "development" ? error.stack : null,
+    originalError: ENV_CONFIG.node_env === 'development' ?  error.stack : null
   });
-};
+}
 
 
 export default AppError;

@@ -1,21 +1,19 @@
 import mongoose from "mongoose";
 import { ENV_CONFIG } from "./env.config";
 
-export const connectDB = () => {
+export const connectDb = () => {
+
   mongoose
     .connect(ENV_CONFIG.db_uri, {
-      dbName: ENV_CONFIG.db_name,
+      dbName:ENV_CONFIG.db_name ,
       autoCreate: true,
     })
     .then(() => {
-      console.log("database connected");
+      console.log("Database connected");
     })
     .catch((error) => {
-      console.log("----------Database connection error------------");
+      console.log("----------------Database connection error-----------------");
       console.log(error);
     });
 };
 
-// api keys
-
-// security keys / secret

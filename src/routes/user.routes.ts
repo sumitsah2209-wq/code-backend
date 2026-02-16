@@ -1,24 +1,19 @@
-//! routing for user
-import express from "express";
-import {
-  delete_user,
-  getAll,
-  getById,
-  update_user,
-} from "../controllers/user.controller";
-//! creating express router instance
+
+import express from 'express'
+import {getAll, getById} from '../controllers/user.controller'
+
 const router = express.Router();
-//* get all users
 
-router.get("/", getAll);
+// get all
+router.get('/',getAll)
 
-//* get by id
+// get by id 
+router.get('/:id',getById)
 
-router.get("/:id", getById);
 
-//* update
-router.put("/:id", update_user);
 
-//* delete
-router.delete("/:id", delete_user);
-export default router;
+
+
+
+
+export default router

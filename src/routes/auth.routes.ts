@@ -1,15 +1,31 @@
-//! routing for auth
 import express from "express";
-import { login, register } from "../controllers/auth.controller";
-import multer from "multer";
+import {
+  login,
+  register,
+  resendOtp,
+  verifyOtp,
+} from "../controllers/auth.controller";
 import { uploader } from "../middlewares/multer.middleware";
 
-//! multer uploader
 const router = express.Router();
+
+//! multer uploader
 const upload = uploader();
-//* register
+//* register user
+//? post , /api/auth/register
+
 router.post("/register", upload.single("profile_image"), register);
 
-//* Login
+//* login
 router.post("/login", login);
+
+//* verify otp
+router.post("/verify-otp", verifyOtp);
+
+//* resend otp
+router.post("/resend-otp", resendOtp);
+
+
+//* get user detail
+
 export default router;
