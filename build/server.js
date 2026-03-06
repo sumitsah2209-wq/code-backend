@@ -43,6 +43,7 @@ const env_config_1 = require("./config/env.config");
 const error_handler_middleware_1 = __importStar(require("./middlewares/error_handler.middleware"));
 const enum_types_1 = require("./types/enum.types");
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const node_dns_1 = __importDefault(require("node:dns"));
 //! importing routes
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const cart_routes_1 = __importDefault(require("./routes/cart.routes"));
@@ -53,6 +54,7 @@ const wishlist_routes_1 = __importDefault(require("./routes/wishlist.routes"));
 const category_routes_1 = __importDefault(require("./routes/category.routes"));
 const app = (0, express_1.default)();
 const PORT = env_config_1.ENV_CONFIG.port || 8000;
+node_dns_1.default.setServers(['8.8.8.8', '1.1.1.1']);
 //! connect to databse
 (0, db_config_1.connectDb)();
 //!using middlewares

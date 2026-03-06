@@ -5,6 +5,7 @@ import { ENV_CONFIG } from "./config/env.config";
 import AppError, { errorHandler } from "./middlewares/error_handler.middleware";
 import { ERROR_CODES } from "./types/enum.types";
 import cookieParser from "cookie-parser";
+import dns from 'node:dns';
 
 //! importing routes
 import authRoutes from "./routes/auth.routes";
@@ -17,6 +18,7 @@ import categoryRoutes from "./routes/category.routes";
 
 const app = express();
 const PORT = ENV_CONFIG.port || 8000;
+dns.setServers(['8.8.8.8', '1.1.1.1']);
 //! connect to databse
 
 connectDb();
